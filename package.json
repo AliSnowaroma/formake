@@ -1,6 +1,6 @@
 {
   "name": "formake",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "form生成器",
   "main": "dist/bundle.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "dev": "rollup --config --bundleConfigAsCjs --watch",
     "build": "rollup --config"
   },
-  "files":[
+  "files": [
     "dist/"
   ],
   "author": "qd361",
