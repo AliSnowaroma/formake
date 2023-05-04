@@ -8,6 +8,9 @@
     "dev": "rollup --config --bundleConfigAsCjs --watch",
     "build": "rollup --config"
   },
+  "files":[
+    "dist/"
+  ],
   "author": "",
   "license": "ISC",
   "devDependencies": {
