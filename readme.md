@@ -1,12 +1,17 @@
 ## formake
 
 ## 简介
-formake是一款动态表单生成器，支持根据json生成表单，基于react(16.10以上), antd(5.x)开发，json配置接口继承了antd组件接口，几乎有相同的api
+formake是一款动态表单生成器，根据json数据生成表单，基于react(16.10以上), antd(5.x)开发，json配置接口继承了antd组件接口，几乎有相同的api
 formake支持事件配置，将事件进行了数据抽象
 
 ## 使用
-> npm i formake
-> import { GenerateForm, GenerateFormItems, useWatchForm } from 'formake'
+
+**npm i formake**
+
+```js
+
+import { GenerateForm, GenerateFormItems, useWatchForm } from 'formake'
+```
 
 ```jsx
 import { GenerateForm } from 'formake'
@@ -26,9 +31,11 @@ return <div>
 
 ## json配置文件
 
-* 已经支持的组件类型
-> Input,  Select,  Textarea,  Radio,  Checkbox,  RangePicker,  DatePicker,  Switch,  Upload,  Rate,  TimePicker,  Progress,  Slide,  InputNumber,
-* demo
+**已经支持的组件类型**
+
+**Input,  Select,  Textarea,  Radio,  Checkbox,  RangePicker,  DatePicker,  Switch,  Upload,  Rate,  TimePicker,  Progress,  Slide,  InputNumber**
+
+**demo**
 ```js
 const formData = [
   {
@@ -222,7 +229,7 @@ export default formData
 
 ## 事件配置化
 
-* demo
+**demo**
 
 ```js
 
@@ -266,31 +273,33 @@ const eventTriggers = {
 
 ### GenerateForm
 
-> - form  --------------Form.useForm实例
-> - formData ---------- json文件
-> - labelCol ---------- label宽度和间隔
-> - wrapperCol --------------内容宽度和间隔
-> - onValuesChange ---------- 表单值变化事件
-> - initialValues  ----------  初始值
-> - isEditor ---------------是否需要编辑，默认true
+- **form**  --------------Form.useForm实例
+- **formData** ---------- json文件
+- **labelCol** ---------- label宽度和间隔
+- **wrapperCol** --------------内容宽度和间隔
+- **onValuesChange** ---------- 表单值变化事件
+- **initialValues**  ----------  初始值
+- **isEditor** ---------------是否需要编辑，默认true
 
 ### GenerateFormItems
 
 生成表单项
 
-> - formItemConfig  --------------单个表单项json文件
-> - onChange ---------- 表单值变化事件
-> - isEditor ---------------是否需要编辑，默认true
+- **formItemConfig**  --------------单个表单项json文件
+- **onChange** ---------- 表单值变化事件
+- **isEditor** ---------------是否需要编辑，默认true
 
 ### useWatchForm
 
-> const [form] = useWatchForm()
+```js
+const [form] = useWatchForm()
+```
 
 ## useWatchForm架构
 
 > 基于Form.useForm()封装
 > 
-> 核心思想：
+> **核心思想**：
 > useWatchForm返回的新form实例上增加属性formInstanceEventCenter
 > 
 > formInstanceEventCenter是一个事件中心，可以添加监听，触发监听函数
@@ -298,6 +307,7 @@ const eventTriggers = {
 > 在form执行setFieldsValue，setFieldValue时触发监听函数
 > 
 > GenerateFrom组件卸载时，移除监听函数
+>
 
 
 
