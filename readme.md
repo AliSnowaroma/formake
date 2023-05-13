@@ -2,13 +2,13 @@
 
 ## 一、 简介
 
-formake是一款动态表单生成器，根据json数据生成表单，基于react(16.10以上), antd(5.x)开发，json配置接口继承了antd组件接口，并在此基础上添加了扩展。
+<font size='3' face="宋体">formake是一款动态表单生成器，根据json数据生成表单，基于react(16.10以上), antd(5.x)开发，json配置接口继承了antd组件接口，并在此基础上添加了扩展。
 
 formake支持事件配置，对事件进行了数据抽象，启发于react, react用对象描述页面，formake用对象述事件。
 
 formake支持表单多种形式嵌套组合，掌握api后，可以快捷生成不同类型地表单。
 
-formake是研发智慧PG系统时，附属研发产品，同智慧PG引擎一起，可以使用在不同语言开发的项目上。
+formake是研发智慧PG系统时，附属研发产品，同智慧PG引擎一起，可以使用在不同语言开发的项目上。</font>
 
 生成图表实例：
 
@@ -53,7 +53,7 @@ onValuesChange: Funciton;    // 同antd
 ```
 
 ### 2，GenerateFormItems  props
-GenerateFormItems主要是用来生成局部表单项
+<font size='3' face="宋体">GenerateFormItems主要是用来生成局部表单项</font>
 
 ```ts
 formData Array<FormData>;  // 同GenerateForm
@@ -88,7 +88,7 @@ type FormData = Array<{
 
 ### 2，容器组件配置
 
-简介：容器组件共有四个，用于复杂表单的配置
+<font size='3' face="宋体">简介：容器组件共有四个，用于复杂表单的配置</font>
 
 >- rowContainer 行容器
 >- colContainer   列容器
@@ -96,7 +96,7 @@ type FormData = Array<{
 >- listContainer 列表容器
 
 #### rowContainer使用和配置
-rowContainer可以嵌套其他组件，也可以被其他组件嵌套，支持多层
+<font size='3' face="宋体">rowContainer可以嵌套其他组件，也可以被其他组件嵌套，支持多层</font>
 
 ```ts
 interface RowContainerConfig {
@@ -112,7 +112,7 @@ interface RowContainerConfig {
 ```
 
 #### columnContainer使用和配置
-columnContainer可以嵌套其他组件，也可以被其他组件嵌套
+<font size='3' face="宋体">columnContainer可以嵌套其他组件，也可以被其他组件嵌套</font>
 ```ts
 interface ColumnContainerConfig {
   marktype: 'columnContainer';
@@ -123,13 +123,14 @@ interface ColumnContainerConfig {
   columnCol?: Object;         // 列所占宽度，用法同labelCol
   items: Array<FormDataItem>  // 容器内表单配置项，可以配置基本组件，容器组件，支持多层嵌套
 }
-
 ```
 
 #### tabContainer使用和配置
 
+<font size='3' face="宋体">
 使用tabContainer组件，items表单项需要添加tabTitle属性，用于显示tab的标题
 tabContainer可以嵌套其他组件，也可以被其他组件嵌套，支持多层
+</font>
 
 ```ts
 interface TabContainerConfig {
@@ -144,8 +145,10 @@ interface TabContainerConfig {
 ```
 
 #### listContainer使用和配置
+<font size='3' face="宋体">
 listContainer可以嵌套其他组件，也可以被其他组件嵌套，支持多层
 **listContainer组件不支持嵌套listContainer组件**，如果需要这样的数据结构，可以进行其他方式拆分组合
+</font>
 ```ts
 interface Config {
   marktype: 'rowContainer';
@@ -156,14 +159,16 @@ interface Config {
   column: number;             // 每行显示几列
   items: Array<FormDataItem>  // 容器内表单配置项，可以配置基本组件，容器组件，支持多层嵌套
 }
-
 ```
 
 **说明：**
+<font size='3' face="宋体">
 容器组件和内部基础组件的尺寸均可以通过组合调节labelCol, wrapperCol, columnCol实现
+</font>
 
 
 ### 事件配置
+<font size='3' face="宋体">
 formake对事件进行了抽象，一般业务中，组件事件可以归纳为以下几点：
 
 >1，隐藏其他表单项
@@ -176,6 +181,7 @@ formake对事件进行了抽象，一般业务中，组件事件可以归纳为�
 不管是什么操作，这些点最终都是对表单产生副作用，这些副作用可以通过react去操作状态影响视图，相对的，这些状态再引起表单变化，同样，省略状态，直接用表单配置数据描述事件带来的视图改变也是可行的。
 
 将事件抽象为以下几种情形：
+</font>
 
 
 ```ts
@@ -203,8 +209,10 @@ interface EventConfig {
 ## 三 、formake扩展
 
 ### useWatchForm
+<font size='3' face="宋体">
 简介：
 useWatchForm基于Antd useForm封装，继承了useForm的所有功能，同时加入了设置值为对象的方法，获取值为对象的方法，值变化监测等功能。
+</font>
 
 使用方法
 ```js
@@ -212,17 +220,19 @@ const [form] = useWatchForm()
 ```
 
 #### 1，useWatchForm 监测功能
-
+<font size='3' face="宋体">
 表单值更新时，formake自动发起值检测，自动更新表单配置文件进而影响视图
 可以通过form.store.activeFormData获取最新的表单配置文件
+</font>
 
 #### 2，setFormatFieldsValue和getFormatFieldsValue
-
+<font size='3' face="宋体">
 form.getFieldsValue获取到的表单值是扁平化的，对于一些复杂业务场景，扁平化不利于业务理解，getFormatFieldsValue扩展自getFieldsValue，在获取值时可以直接获取到和配置文件相同的数据结构
 
 setFormatFieldsValue扩展自form.setFieldsValue,支持设置嵌套对象，内部会自动根据配置文件进行扁平化处理。
 
 setFormatFieldsValue和getFormatFieldsValue主要应用于上述嵌套组件互相嵌套的场景。
+</font>
 
 ## 四、实例
 
