@@ -5,7 +5,14 @@ export default function Upload (props) {
   const { disabled, action, listType = 'picture-card', value = [], onChange, max, size, ...rest } = props
   const [fileList, setFileList] = useState([])
   useEffect(() => {
-    setFileList(value.map((item, index) => {
+    if (!value) {
+      return
+    }
+    let adapterValue = value
+    if (typeof adapterValue === 'string') {
+      adapterValue = [adapterValue]
+    }
+    setFileList(adapterValue.map((item, index) => {
       return {
         uid: `${item}${index}`,
         name: '',

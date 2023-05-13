@@ -4,5 +4,9 @@ import { InputNumber as AntdInputNumber } from 'antd'
 export default function InputNumber (props) {
   const { max, min, value, onChange, ...rest } = props
 
-  return <AntdInputNumber value={value} {...rest} onChange={onChange} />
+  const innerChange = (val) => {
+    onChange(val)
+  }
+
+  return <AntdInputNumber value={value} {...rest} max={max} min={min} onChange={innerChange} />
 }

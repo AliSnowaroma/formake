@@ -4,6 +4,7 @@ import json from '@rollup/plugin-json'
 import alias from '@rollup/plugin-alias'
 import sucrase from '@rollup/plugin-sucrase'
 import babel from '@rollup/plugin-babel'
+import postcss from 'rollup-plugin-postcss'
 import path from 'path'
 const __dirname = path.dirname(__filename)
 const pathResolve = p => path.resolve(__dirname, p)
@@ -41,6 +42,9 @@ export default {
         '@babel/preset-react',
       ],
     }),
+    postcss({
+      plugins: []
+    })
   ],
   external: ['antd', 'react'], // 这里不能打包react, 项目中存在两个不同的react版本，react hooks会报错
 }

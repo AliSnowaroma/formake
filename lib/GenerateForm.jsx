@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Form } from 'antd'
-import { isEqual, isEmptyObject, filterObj } from './utils'
+import { isEqual, isEmptyObject, filterObj, dc } from './utils'
 
 import GenerateFormItems from './GenerateFormItems'
 
@@ -13,6 +13,34 @@ export default class GenerateForm extends Component {
     labelCol: {
       span: 18,
     },
+    formItemPropsList: [
+      'colon',
+      'extra',
+      'getValueFromEvent',
+      'getValueProps',
+      'hasFeedback',
+      'help',
+      'hidden',
+      'htmlFor',
+      'initialValue',
+      'label',
+      'labelAlign',
+      'labelCol',
+      'messageVariables',
+      'name',
+      'normalize',
+      'noStyle',
+      'preserve',
+      'required',
+      'rules',
+      'shouldUpdate',
+      'tooltip',
+      'triggervalidateFirst',
+      'validateStatus',
+      'validateTrigger',
+      'valuePropName',
+      'wrapperCol',
+    ],
   }
 
   constructor (props) {
@@ -57,7 +85,11 @@ export default class GenerateForm extends Component {
   }
 
   componentDidUpdate () {
-
+    const { form } = this.props
+    if (form && form.isWatchForm) {
+      const store = form.store
+      store.set('activeFormConfig', this.state.activeFormData)
+    }
   }
 
   componentWillUnmount () {
@@ -79,12 +111,11 @@ export default class GenerateForm extends Component {
     // 找到存在eventConfig的值
     const changeParams = Object.keys(values)
     const { originFormData } = this.state
-    let activeFormData = [
-      ...originFormData,
-    ]
+    const activeFormData = dc(originFormData)
     const eventMap = {}
+
     changeParams.forEach((param) => {
-      const formItemConfig = originFormData.find(item => item.param === param) || {}
+      const formItemConfig = getDeepFormItemConfig(originFormData, param) || {}
       const eventConfig = formItemConfig.eventConfig
       if (eventConfig) {
         eventMap[param] = eventConfig
@@ -100,49 +131,84 @@ export default class GenerateForm extends Component {
     for (const [field, etg] of Object.entries(eventMap)) {
       const value = values[field]
       const { filter, modify } = etg
-
       // 执行filter
       if (filter) {
-        const { fieldScope, rules } = filter
-        const { showFields = [] } = rules.find(item => item.triggerValue.includes(value)) || {}
-        activeFormData = filterArr(activeFormData, filterArr(fieldScope, showFields))
+        const { hideFields = [] } = filter.find(item => item.triggerValue.includes(value)) || {} // 找到当前规则
+        filterFields(activeFormData, hideFields) // 在指定的表单项中，显示规则中包含的表单项
       }
 
       // 执行modify
       if (modify) {
-        modify.forEach((item) => {
-
-          // 校验规则，选项，是否禁用更新
-          if (item.newFormItemData) {
-            activeFormData.forEach((formItem, index) => {
-              if (formItem.param === item.field) {
-                activeFormData[index] = {
-                  ...formItem,
-                  ...item.newFormItemData,
-                }
-              }
-            })
-          }
-
-          // 值更新
-          if (item.newValue !== undefined) {
-            item.field && form.setFieldValue(item.field, item.newValue)
-          }
+        const actions = modify.filter(item => item.triggerValue.includes(value)) || [] // 找到当前规则
+        actions.forEach((item) => {
+          modifyFields(activeFormData, item)
         })
       }
     }
 
     this.setState({ activeFormData: activeFormData })
 
-    function filterArr (arr1, arr2) {
-      return arr1.filter((item) => {
-        if (typeof item === 'string') {
-          return !arr2.includes(item)
+    function getDeepFormItemConfig (originFormData, param) {
+      for (const item of originFormData) {
+        if (item.param === param) {
+          if (item.marktype.indexOf('Container') > -1 && item.marktype !== 'listContainer') {
+            return null
+          }
+
+          return item
         }
 
-        return !arr2.includes(item.param)
-      })
+        if (item.items && item.marktype !== 'listContainer') { // listContainer不进行遍历
+          const formConfig = getDeepFormItemConfig(item.items, param)
+          if (formConfig !== undefined) {
+            return formConfig
+          }
+        }
+
+      }
     }
+
+    function filterFields (activeFormData, hideFields) {
+      for (let i = 0; i < activeFormData.length; i++) {
+
+        if (hideFields.includes(activeFormData[i].param)) {
+          activeFormData.splice(i, 1)
+        } else {
+          if (activeFormData[i].items && activeFormData[i].items.length > 0) {
+            filterFields(activeFormData[i].items, hideFields)
+          }
+        }
+      }
+    }
+
+    function modifyFields (activeFormData, newItem) {
+
+      for (let i = 0; i < activeFormData.length; i++) {
+
+        if (newItem.modifyField === activeFormData[i].param && activeFormData[i].marktype.indexOf('Container') === -1) {
+          // 校验规则更新，选项更新，是否禁用更新
+          if (newItem.newFormItemConfig) {
+            activeFormData[i] = {
+              ...activeFormData[i],
+              ...newItem.newFormItemConfig,
+            }
+          }
+
+          // 值更新
+          if (newItem.newValue) {
+            form.setFieldValue(newItem.modifyField, newItem.newValue)
+          }
+
+          return
+        }
+
+        if (activeFormData[i].items && activeFormData[i].items.length > 0) {
+          modifyFields(activeFormData[i].items, newItem)
+        }
+
+      }
+    }
+
   }
 
   onValuesChange (values, allvalues) {
@@ -155,7 +221,7 @@ export default class GenerateForm extends Component {
     const { isEditor, children, ...rest } = this.props
     const { formError, activeFormData } = this.state
 
-    const formProps = filterObj(rest, ['formData', 'useEvent'])
+    const formProps = filterObj(rest, ['formData', 'useEvent', 'formItemPropsList'])
 
     return (
       <div>
@@ -175,7 +241,7 @@ export default class GenerateForm extends Component {
                 <GenerateFormItems
                   isEditor={isEditor}
                   formData={activeFormData}
-                  column={this.props.column}
+                  formItemPropsList={this.props.formItemPropsList}
                 />
                 {children}
               </>

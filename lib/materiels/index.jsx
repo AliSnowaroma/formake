@@ -12,6 +12,7 @@ import TimePicker from './TimePicker'
 import Progress from './Progress'
 import Slide from './Slide'
 import InputNumber from './InputNumber'
+import Color from './color'
 
 export {
   Input,
@@ -28,4 +29,5 @@ export {
   Progress,
   Slide,
   InputNumber,
+  Color,
 }

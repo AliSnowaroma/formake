@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Col, InputNumber, Row, Slider } from 'antd'
 
 function DecimalStep (props) {
-  const { value, onChange: triggerChange, step, max = 1, min = 0, defaultValue } = props
+  const { value, onChange: triggerChange, step, max = 1, min = 0, defaultValue, disabeled } = props
   const [inputValue, setInputValue] = useState(0)
   const onChange = (value) => {
     if (isNaN(value)) {
@@ -29,6 +29,7 @@ function DecimalStep (props) {
           onChange={onChange}
           value={typeof inputValue === 'number' ? inputValue : 0}
           step={step}
+          disabeled={disabeled}
         />
       </Col>
       <Col span={4}>
@@ -41,6 +42,7 @@ function DecimalStep (props) {
           step={step}
           value={inputValue}
           onChange={onChange}
+          disabeled={disabeled}
         />
       </Col>
     </Row>
