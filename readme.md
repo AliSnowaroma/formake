@@ -12,7 +12,7 @@ formake是研发智慧PG系统时，附属研发产品，同智慧PG引擎一起
 
 生成图表实例：
 
-<img src="./lib/assets/formake.png" width="50%" />
+<img src="https://s1.ax1x.com/2023/05/13/p961zwQ.png" width="50%" />
 
 ## 二、使用
 
@@ -163,9 +163,6 @@ interface Config {
 容器组件和内部基础组件的尺寸均可以通过组合调节labelCol, wrapperCol, columnCol实现
 
 
-
-
-
 ### 事件配置
 formake对事件进行了抽象，一般业务中，组件事件可以归纳为以下几点：
 
@@ -230,7 +227,9 @@ setFormatFieldsValue和getFormatFieldsValue主要应用于上述嵌套组件互�
 ## 四、实例
 
 开头图表的配置信息
-<img src="./lib/assets/formake.png" width="20%" />
+
+<img src="https://s1.ax1x.com/2023/05/13/p961zwQ.png" width="20%" />
+
 ```js
 const formItems = [
   {
