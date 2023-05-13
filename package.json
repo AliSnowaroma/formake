@@ -1,6 +1,6 @@
 {
   "name": "formake",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "form生成器",
   "main": "dist/bundle.js",
   "scripts": {
