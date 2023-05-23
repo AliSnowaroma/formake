@@ -3,7 +3,7 @@ import { Row, Col } from 'antd'
 import GenerateFormItem from '../GenerateFormItem'
 
 export default function ColContainer (props) {
-  const { items, isEditor, formItemPropsList, className, columnCol = {}, listName } = props
+  const { items, isEditor, formItemPropsList, className, columnCol = {}, listName, activeId } = props
 
   return (
     <Col className={`form-row-container-item ${className}`} {...columnCol}>
@@ -18,6 +18,7 @@ export default function ColContainer (props) {
               formItemPropsList={formItemPropsList}
               listName={listName}
               isContainer
+              activeId={activeId}
             />
           )
         })

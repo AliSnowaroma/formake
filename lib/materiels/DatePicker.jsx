@@ -8,7 +8,7 @@ dayjs.extend(weekday)
 dayjs.extend(localeData)
 
 function DatePicker (props) {
-  const { type = 'date', onChange, value, showTime = false, ...rest } = props
+  const { picker = 'date', onChange, value, showTime = false, ...rest } = props
   const { format = 'YYYY-MM-DD hh:mm:ss' } = props
   const onDateChange = useCallback(
     (date) => {
@@ -28,7 +28,7 @@ function DatePicker (props) {
   return (
     <AntdDatePicker
       onChange={onDateChange}
-      picker={type}
+      picker={picker}
       showTime={showTime}
       value={transformDateValue}
       format={format}

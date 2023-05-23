@@ -3,7 +3,7 @@ import React from 'react'
 import GenerateFormItem from './GenerateFormItem'
 
 function GenerateFormItems (props) {
-  const { isEditor, formData, formItemPropsList } = props
+  const { isEditor, formData, formItemPropsList, onFormItemClick, activeId } = props
 
   return formData.map((formItemConfig, index) => {
     return (
@@ -12,6 +12,8 @@ function GenerateFormItems (props) {
         formItemConfig={formItemConfig}
         key={index}
         isEditor={isEditor}
+        onFormItemClick={onFormItemClick}
+        activeId={activeId}
       />
     )
   })

@@ -3,7 +3,7 @@ import { Tabs } from 'antd'
 import GenerateFormItem from '../GenerateFormItem'
 
 export default function TabContainer (props) {
-  const { items, isEditor, formItemPropsList, className, listName } = props
+  const { items, isEditor, formItemPropsList, className, listName, activeId } = props
   const [activeTab, setActiveTab] = useState('0')
   const [tabItems, setTabItems] = useState([])
 
@@ -45,6 +45,7 @@ export default function TabContainer (props) {
               hidden={hidden}
               formItemPropsList={formItemPropsList}
               listName={listName}
+              activeId={activeId}
             />
           )
         })

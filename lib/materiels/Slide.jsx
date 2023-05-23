@@ -22,7 +22,7 @@ function DecimalStep (props) {
 
   return (
     <Row>
-      <Col span={12}>
+      <Col span={8}>
         <Slider
           min={min}
           max={max}
@@ -32,7 +32,7 @@ function DecimalStep (props) {
           disabeled={disabeled}
         />
       </Col>
-      <Col span={4}>
+      <Col span={6}>
         <InputNumber
           min={min}
           max={max}

@@ -3,7 +3,7 @@ import GenerateFormItem from '../GenerateFormItem'
 import { Form, Space, Button } from 'antd'
 
 export default function RowContainer (props) {
-  const { items, isEditor, formItemPropsList, className, param } = props
+  const { items, isEditor, formItemPropsList, className, param, activeId } = props
 
   return (
     <Form.List name={param} className={`form-array-row-container ${className}`}>
@@ -20,16 +20,17 @@ export default function RowContainer (props) {
                       formItemConfig={formItemConfig}
                       formItemPropsList={formItemPropsList}
                       listName={field.name}
+                      activeId={activeId}
                     />
                   )
                 })
               }
-              <Button onClick={() => remove(field.name)}>-</Button>
+              <Button size="small" onClick={() => remove(field.name)}>—</Button>
             </Space>
           ))}
 
           <Form.Item>
-            <Button type="dashed" onClick={() => add()} block>
+            <Button type="dashed" size="small" onClick={() => add()} block>
               添加
             </Button>
           </Form.Item>

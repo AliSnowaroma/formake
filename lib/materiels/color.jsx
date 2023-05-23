@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import { SketchPicker } from 'react-color'
+import SketchPicker from 'react-color/es/Sketch'
 import { Popover } from 'antd'
 import './index.less'
 

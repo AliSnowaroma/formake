@@ -5,7 +5,7 @@ import { getFormat } from '../utils'
 const { RangePicker: AntdRangePicker } = AntdDatePicker
 
 export default function RangePicker (props) {
-  const { placeholder, disabled, type, value, onChange, format, showTime, ...rest } = props
+  const { placeholder, disabled, picker, value, onChange, format, showTime, ...rest } = props
 
   const onRangeDateChange = useCallback(
     (dateArr) => {
@@ -25,7 +25,7 @@ export default function RangePicker (props) {
       placeholder={placeholder}
       disabled={disabled}
       onChange={onRangeDateChange}
-      picker={type}
+      picker={picker}
       value={transformRangeDateValue}
       showTime={showTime}
     />

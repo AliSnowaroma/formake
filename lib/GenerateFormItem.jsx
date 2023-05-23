@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react'
+import React, { useEffect, useState, useMemo, useCallback } from 'react'
 import ComponentMap, { containerMarkTypes } from './ComponentMap'
 import { generateObjFromKeys, filterObj } from './utils'
 import { Form } from 'antd'
@@ -6,7 +6,7 @@ import { Form } from 'antd'
 const { Item: FormItem } = Form
 
 function GenerateFormItem (props) {
-  const { formItemConfig, isEditor = true, formItemPropsList, hidden, listName } = props
+  const { formItemConfig, isEditor = true, formItemPropsList, hidden, listName, onFormItemClick, activeId } = props
   let { rules, marktype } = formItemConfig
   const DynamicFormItem = ComponentMap.get(formItemConfig.marktype) || null
   const [disabled, setDisabled] = useState(false)
@@ -28,21 +28,33 @@ function GenerateFormItem (props) {
     }) : []
   }, [rules])
 
+  const onInnerFormItemClick = useCallback((e, item) => {
+    e.stopPropagation()
+    onFormItemClick && onFormItemClick(item)
+  }, [])
+
   const formItemCfg = generateObjFromKeys(formItemConfig, formItemPropsList)
-  const comCfg = filterObj(formItemConfig, [...formItemPropsList, 'eventConfig'])
+  const comCfg = filterObj(formItemConfig, [...formItemPropsList, 'eventConfig', 'id'])
 
   if (listName !== undefined && marktype === 'listContainer') {
     throw new Error('listContainer类型不支持嵌套listContainer类型')
   }
+
+  const { id } = formItemConfig
+  const dataIdObj = id ? { 'data-id': id } : {}
+  const activeClass = (id && activeId && id === activeId) ? 'formake-active-form-item' : ''
 
   if (containerMarkTypes.includes(marktype)) {
 
     return (
       <FormItem
         {...formItemCfg}
+        {...dataIdObj}
         hidden={hidden}
         rules={rules}
         style={{ marginBottom: 0, }}
+        onClick={(e) => { onInnerFormItemClick(e, formItemConfig) }}
+        className={`${activeClass}`}
       >
         <DynamicFormItem
           {...comCfg}
@@ -50,6 +62,7 @@ function GenerateFormItem (props) {
           formItemPropsList={formItemPropsList}
           disabled={disabled}
           listName={listName}
+          activeId={activeId}
         />
       </FormItem>
     )
@@ -60,6 +73,9 @@ function GenerateFormItem (props) {
     name={listName !== undefined ? [listName, formItemConfig.param] : formItemConfig.param}
     hidden={hidden}
     rules={rules}
+    {...dataIdObj}
+    onClick={(e) => { onInnerFormItemClick(e, formItemConfig) }}
+    className={`${activeClass}`}
   >
     <DynamicFormItem
       {...comCfg}

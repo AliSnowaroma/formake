@@ -81,7 +81,11 @@ export default class GenerateForm extends Component {
   }
 
   componentDidMount () {
-
+    const { form } = this.props
+    if (form && form.isWatchForm) {
+      const store = form.store
+      store.set('activeFormConfig', this.state.activeFormData)
+    }
   }
 
   componentDidUpdate () {
@@ -111,7 +115,7 @@ export default class GenerateForm extends Component {
     // 找到存在eventConfig的值
     const changeParams = Object.keys(values)
     const { originFormData } = this.state
-    const activeFormData = dc(originFormData)
+    let activeFormData = dc(originFormData)
     const eventMap = {}
 
     changeParams.forEach((param) => {
@@ -134,7 +138,7 @@ export default class GenerateForm extends Component {
       // 执行filter
       if (filter) {
         const { hideFields = [] } = filter.find(item => item.triggerValue.includes(value)) || {} // 找到当前规则
-        filterFields(activeFormData, hideFields) // 在指定的表单项中，显示规则中包含的表单项
+        activeFormData = filterFields(activeFormData, hideFields) // 在指定的表单项中，显示规则中包含的表单项
       }
 
       // 执行modify
@@ -168,17 +172,19 @@ export default class GenerateForm extends Component {
       }
     }
 
-    function filterFields (activeFormData, hideFields) {
+    function filterFields (activeFormData, hideFields, newFromData = []) {
       for (let i = 0; i < activeFormData.length; i++) {
 
-        if (hideFields.includes(activeFormData[i].param)) {
-          activeFormData.splice(i, 1)
+        if (!hideFields.includes(activeFormData[i].param)) {
+          newFromData.push(activeFormData[i])
         } else {
           if (activeFormData[i].items && activeFormData[i].items.length > 0) {
-            filterFields(activeFormData[i].items, hideFields)
+            newFromData[i].items = filterFields(activeFormData[i].items, hideFields)
           }
         }
       }
+
+      return newFromData
     }
 
     function modifyFields (activeFormData, newItem) {
@@ -218,19 +224,18 @@ export default class GenerateForm extends Component {
   }
 
   render () {
-    const { isEditor, children, ...rest } = this.props
+    const { isEditor, children, activeId, ...rest } = this.props
     const { formError, activeFormData } = this.state
 
     const formProps = filterObj(rest, ['formData', 'useEvent', 'formItemPropsList'])
 
     return (
-      <div>
+      <>
         {
-          !formError ? <div>
+          !formError ? <div className={`${this.props.className} formake-dynamic-form`}>
             <Form
               ref={this.props.formInstance}
               {...formProps}
-              className={`${this.props.className} dynamic-form`}
               labelCol={this.props.labelCol}
               wrapperCol={this.props.wrapperCol}
               initialValues={this.props.initialValues || {}}
@@ -242,18 +247,19 @@ export default class GenerateForm extends Component {
                   isEditor={isEditor}
                   formData={activeFormData}
                   formItemPropsList={this.props.formItemPropsList}
+                  activeId={activeId}
                 />
                 {children}
               </>
             </Form>
             {this.props.footer}
           </div>
-            : <div>
+            : <div style={{ color: 'red' }} className={`${this.props.className} formake-dynamic-form`}>
               <h4>表单配置错误</h4>
             </div>
         }
 
-      </div>
+      </>
     )
   }
 }

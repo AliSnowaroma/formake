@@ -6,8 +6,12 @@ function getValueFromConfig (formItems = [], values = {}, newObj = {}) {
       // 格式化容器
       if (containerMarkTypes.includes(item.marktype)) {
         if (item.marktype !== 'listContainer') {
-          newObj[item.param] = {}
-          newObj[item.param] = getValueFromConfig(item.items, values, newObj[item.param])
+          if (!item.param) {
+            getValueFromConfig(item.items, values, newObj)
+          } else {
+            newObj[item.param] = {}
+            newObj[item.param] = getValueFromConfig(item.items, values, newObj[item.param])
+          }
         } else {
           newObj[item.param] = []
           if (values[item.param] && values[item.param].length > 0) {
