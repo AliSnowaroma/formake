@@ -7,12 +7,14 @@ formake支持事件配置，对事件进行了数据抽象，启发于react, rea
 
 formake支持表单多种形式嵌套组合，掌握api后，可以快捷生成不同类型地表单。
 
-formake是研发[智慧PG(pg-ting)](https://www.pgting.com)系统时，附属研发产品，同智慧PG引擎一起，可以使用在不同语言开发的项目上。
+formake是研发<font color="#2a89d9">[智慧PG(pg-ting)](https://www.pgting.com)</font>系统时，附属研发产品，同智慧PG引擎一起，可以使用在不同语言开发的项目上。
 </font>
 
 中文文档参见：
-[formake中文文档](https://www.pgting.com/pg-doc/formake)
-[拖拽生成表单](https://www.pgting.com/formDesign)
+
+<font color="#2a89d9">[formake中文文档](https://www.pgting.com/pg-doc/formake)</font>
+
+<font color="#2a89d9">[拖拽生成表单](https://www.pgting.com/formDesign)</font>
 
 
 生成图表实例：
